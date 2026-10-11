@@ -22,12 +22,6 @@ function Hero({ user }) {
       {/* Decoration, large screens only */}
       <div className="pointer-events-none absolute top-1/2 right-12 hidden -translate-y-1/2 lg:block" aria-hidden="true">
         <Coin size={230} className="drop-shadow-2xl" />
-        <div className="absolute -top-4 -left-24 flex items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-xl">
-          <span className="text-emerald-600">+1</span> Python help
-        </div>
-        <div className="absolute -right-4 -bottom-6 flex items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-xl">
-          <span className="text-amber-500">★ 4.9</span> Spanish chat
-        </div>
       </div>
       <div className="relative max-w-2xl">
         <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur">

@@ -6,10 +6,25 @@ A skill-swap web app for students. One hour of help given earns one credit, and 
 
 ## Screenshots
 
-<!-- Add your own screenshots to docs/screenshots/ and link them here, for example:
-![Browse](docs/screenshots/browse.png) -->
+**Browse**: search and filter skills, with the account pane on the right once logged in.
 
-_Screenshots to be added: Browse, Offer Detail, My Bookings, Wallet, Community Stats._
+![Browse](docs/screenshots/browse.png)
+
+**Offer detail**: description, reviews, and time slots to book.
+
+![Offer detail](docs/screenshots/offer-details.png)
+
+**My bookings**: requests you made and requests for you, with actions that depend on the status.
+
+![My bookings](docs/screenshots/my-bookings.png)
+
+**Wallet**: current balance and every credit transaction.
+
+![Wallet](docs/screenshots/wallet.png)
+
+**Community**: hours exchanged, top skills and top helpers.
+
+![Community](docs/screenshots/community.png)
 
 ## Run it
 
