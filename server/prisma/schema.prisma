@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SlotStatus {
+  FREE
+  BOOKED
+}
+
+enum BookingStatus {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  balance      Int      @default(3) // new users start with 3 credits
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  offers         Offer[]
+  bookingsMade   Booking[]     @relation("Requester")
+  bookingsGot    Booking[]     @relation("Provider")
+  sent           Transaction[] @relation("From")
+  received       Transaction[] @relation("To")
+  reviewsWritten Review[]
+
+  @@map("users")
+}
+
+model Offer {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  title       String
+  description String
+  category    String
+  price       Int // credits per hour
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user     User      @relation(fields: [userId], references: [id])
+  slots    Slot[]
+  bookings Booking[]
+
+  @@index([category])
+  @@map("offers")
+}
+
+model Slot {
+  id        Int        @id @default(autoincrement())
+  offerId   Int        @map("offer_id")
+  date      DateTime   @db.Date
+  startTime String     @map("start_time") // "HH:MM"
+  endTime   String     @map("end_time")
+  status    SlotStatus @default(FREE)
+
+  offer    Offer     @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@map("slots")
+}
+
+model Booking {
+  id          Int           @id @default(autoincrement())
+  offerId     Int           @map("offer_id")
+  slotId      Int           @map("slot_id")
+  requesterId Int           @map("requester_id")
+  providerId  Int           @map("provider_id")
+  cost        Int // price copied from the offer when requested
+  status      BookingStatus @default(REQUESTED)
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  offer        Offer         @relation(fields: [offerId], references: [id])
+  slot         Slot          @relation(fields: [slotId], references: [id])
+  requester    User          @relation("Requester", fields: [requesterId], references: [id])
+  provider     User          @relation("Provider", fields: [providerId], references: [id])
+  transactions Transaction[]
+  review       Review?
+
+  @@index([requesterId])
+  @@index([providerId])
+  @@map("bookings")
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  fromUserId Int      @map("from_user_id")
+  toUserId   Int      @map("to_user_id")
+  amount     Int
+  bookingId  Int      @map("booking_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  from    User    @relation("From", fields: [fromUserId], references: [id])
+  to      User    @relation("To", fields: [toUserId], references: [id])
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  @@index([fromUserId])
+  @@index([toUserId])
+  @@map("transactions")
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  bookingId  Int      @unique @map("booking_id") // one review per booking
+  reviewerId Int      @map("reviewer_id")
+  rating     Int // 1-5
+  comment    String
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  booking  Booking @relation(fields: [bookingId], references: [id])
+  reviewer User    @relation(fields: [reviewerId], references: [id])
+
+  @@map("reviews")
+}

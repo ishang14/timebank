@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm neutral greys: slate utilities now use the stone scale */
+  --color-slate-50: var(--color-stone-50);
+  --color-slate-100: var(--color-stone-100);
+  --color-slate-200: var(--color-stone-200);
+  --color-slate-300: var(--color-stone-300);
+  --color-slate-400: var(--color-stone-400);
+  --color-slate-500: var(--color-stone-500);
+  --color-slate-600: var(--color-stone-600);
+  --color-slate-700: var(--color-stone-700);
+  --color-slate-800: var(--color-stone-800);
+  --color-slate-900: var(--color-stone-900);
+  --color-slate-950: var(--color-stone-950);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+}
+
+/* Fraunces defaults to old-style numbers that dip below the line; use lining ones */
+.font-display {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+
+body {
+  @apply bg-slate-50 font-sans text-slate-800 antialiased;
+  /* soft colour glows behind the whole app */
+  background-image:
+    radial-gradient(40rem 30rem at 0% -5%, rgb(45 212 191 / 0.16), transparent 60%),
+    radial-gradient(35rem 30rem at 100% 10%, rgb(251 191 36 / 0.14), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Shared building blocks, used across all pages */
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-linear-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-500/25 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-teal-500/30;
+  }
+  .btn-accent {
+    @apply bg-amber-400 text-amber-950 shadow-md shadow-amber-500/25 hover:-translate-y-0.5 hover:bg-amber-300;
+  }
+  .btn-outline {
+    @apply border border-slate-200 bg-white text-slate-700 hover:border-teal-300 hover:text-teal-700;
+  }
+  .btn-success {
+    @apply bg-emerald-600 text-white shadow-md shadow-emerald-500/20 hover:bg-emerald-500;
+  }
+  .btn-danger {
+    @apply border border-rose-200 bg-white text-rose-600 hover:bg-rose-50;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .card {
+    @apply rounded-2xl border border-slate-200/70 bg-white shadow-sm shadow-slate-900/5;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30 focus:outline-none;
+  }
+  .label {
+    @apply mb-1 block text-xs font-semibold tracking-wide text-slate-500 uppercase;
+  }
+  .page-title {
+    @apply font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl;
+  }
+  .error-box {
+    @apply rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700;
+  }
+}

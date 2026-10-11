@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --env-file=.env.test node_modules/prisma/build/index.js migrate deploy && node --env-file=.env.test --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "benchmark": "node --env-file-if-exists=.env scripts/benchmark.js",
+    "seed": "node --env-file-if-exists=.env prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
+    "express": "^5.3.0",
+    "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "prisma": "^6.19.3",
+    "supertest": "^7.3.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "setupFilesAfterEnv": [
+      "./tests/setup.js"
+    ]
+  }
+}
